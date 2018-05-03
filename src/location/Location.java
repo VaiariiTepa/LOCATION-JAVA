@@ -56,7 +56,7 @@ public class Location {
               
               break;
             case 2:
-              System.out.println("=================================");
+              System.out.println("*****************************");
               System.out.println("Enregistrer nouveau client");
               inscription();
               break;
@@ -279,8 +279,10 @@ public class Location {
                                 +" - Duree "+fl.get(i).getDuree());
         }       
         
-         location.Location.prix = fl.get(select_duree).getDuree()*v.get(select_voiture).getprix();
+        location.Location.prix = fl.get(select_duree).getDuree()*v.get(select_voiture).getprix();
         
+        //Ont retourn dans le menu principale
+        Location.Menu_principal();
     }
     
     public static void Total_prix(){
@@ -290,7 +292,7 @@ public class Location {
         
     }
    
-   public static void TotaPrix() {
+   public static void TotalPrix() {
        for(int i=0;i<fl.size();i++){
             System.out.println("N° Location "+i+" - Client "+fl.get(i).getListVoiture().getImmatriculation()
                                 +" - Duree "+fl.get(i).getDuree());
