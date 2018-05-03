@@ -134,13 +134,5 @@ public class Voiture {
        this.nbLocation = valeur;
    }
    
-  // protected String getType() {
-   //    return this.type;
-   //}
-   
-   //protected void setType(String newType) {
-   //    this.type = newType;
-  // }
-
  
 }

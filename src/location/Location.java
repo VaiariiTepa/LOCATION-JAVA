@@ -10,8 +10,17 @@ public class Location {
     private static final ArrayList<Voiture> v = new ArrayList<Voiture>();
     // cl to client
     private static final ArrayList<Client> cl = new ArrayList<Client>();
+    // b to berlin
+    private static final ArrayList<Berlin> b = new ArrayList<Berlin>();
+    // c to citadine
+    private static final ArrayList<Citadine> c = new ArrayList<Citadine>();
+    // s to SUV
+    private static final ArrayList<Suv> s = new ArrayList<Suv>();
     // fl to fiche location
     private static final ArrayList<FicheLocation> fl = new ArrayList<FicheLocation>();
+    //Prix total à payé pour la location
+    private static int prix;
+    
     
     /**
      * 
@@ -32,23 +41,22 @@ public class Location {
         System.out.println("=================================");
         System.out.println("|   MENU PRINCIPAL              |");
         System.out.println("=================================");
-        System.out.println("|                               |");
         System.out.println("| 1. Acquérir voiture           |");
         System.out.println("| 2. Enregistrer nouveau client |");
         System.out.println("| 3. Louer véhicule             |");
         System.out.println("| 4. Rendre véhicule            |");
         System.out.println("| 0. Quitter                    |");
-        System.out.println("|                               |");
         System.out.println("=================================");
         swValue = Keyin.inInt(" Votre choix : ");
 
         // Switch construct
         switch (swValue) {
             case 1:
-              System.out.println("Acquérir voiture");
-              newVehicule();
+              choixVoiture(0);
+              
               break;
             case 2:
+              System.out.println("=================================");
               System.out.println("Enregistrer nouveau client");
               inscription();
               break;
@@ -58,6 +66,7 @@ public class Location {
               break;
             case 4:
                 System.out.println("Rendre véhicule");
+                TotaPrix();
               break;
             case 0:
                 System.out.println("Quitter");
@@ -73,14 +82,31 @@ public class Location {
      * Donnée initial
      */
     public static void init(){
-       //Liste Vehicule
-       v.add(new Voiture(78459621,4,3000));
+        
+       //Liste des véhicules pour le type Citadine
+       c.add(new Citadine(12,3,2000,1));
+       c.add(new Citadine(21,2,1200,1));
+       c.add(new Citadine(32,2,1300,1));
+       
+       //Liste de véhicule pour le type Berlin
+       b.add(new Berlin(78459621,4,3000,1));
+       b.add(new Berlin(78459621,4,3000,1));
+       b.add(new Berlin(78459621,4,3000,1));
+       
+       //Liste de véhicule pour le type Suv
+       s.add(new Suv(78459621,4,3000,1));
+       s.add(new Suv(78459621,4,3000,1));
+       s.add(new Suv(78459621,4,3000,1));
+        
+       //Liste des Vehicule
        v.add(new Voiture(123456,2,1800));
        v.add(new Voiture(645213,4,3500));
-       //Liste Client
+       
+       //Liste des Client
        cl.add(new Client("Tulipe","Maezzena",21,999));
        cl.add(new Client("Paté","Taylor",30,777));
-       //Liste Location
+       
+       //Liste de Location
        fl.add(new FicheLocation(new Client("Tulipe","Maezzena",21,999),new Berlin(12345,5,2500,2),4));
        fl.add(new FicheLocation(new Client("Paté","Taylor",30,777),new Berlin(12345,5,2500,2),9));
     }
@@ -91,13 +117,13 @@ public class Location {
     public static void newVehicule(){
         Voiture voiture = new Voiture();
         
-        int immatriculation = Keyin.inInt("Immatriculation du véhicule");
+        int immatriculation = Keyin.inInt("Immatriculation du véhicule :");
         voiture.setImmatriculation(immatriculation);
         
-        int passenger = Keyin.inInt("Nombre de passager");
+        int passenger = Keyin.inInt("Nombre de passager :");
         voiture.setPassenger(passenger);
         
-        int prix = Keyin.inInt("Tarif par jour");
+        int prix = Keyin.inInt("Tarif par jour :");
         voiture.setprix(prix);
         
         v.add(voiture);
@@ -114,41 +140,66 @@ public class Location {
     /**
      * Choix type Véhicule
      */
-    public static void choixVoiture() {
+    public static void choixVoiture(int option) {
+        
         // Local variable
         int swValue;
 
         // Display menu graphics
         System.out.println("=================================");
-        System.out.println("|   Choix type Véhicule         |");
+        System.out.println("|     Type de véhicule          |");
         System.out.println("=================================");
-        System.out.println("|                               |");
         System.out.println("| 1. Citadine                   |");
         System.out.println("| 2. Berline                    |");
-        System.out.println("| 3. Sport.Utilitie.Vehicule    |");
-        System.out.println("| 0. Retour au menu principal   |");
-        System.out.println("|                               |");
+        System.out.println("| 3. Suv                        |");
         System.out.println("=================================");
-        swValue = Keyin.inInt(" Votre choix : ");
+        swValue = Keyin.inInt("Choix : ");
 
         // Switch construct
         switch (swValue) {
             case 1:
-              System.out.println("Citadine");
+                System.out.println("Citadine");
+                if (option == 0) {
+                    newVehicule();
+                }else {
+                    //Boucle pour afficher la liste des voitures du type Citadine
+                    for(int i=0;i<c.size();i++){
+                     System.out.println(i+" - "+"Immatriculation "+c.get(i).getImmatriculation()
+                                            +" - nbPassager "+c.get(i).getPassenger()
+                                            +" - Prix "+c.get(i).getprix());
+                    }
+                }
+                
               break;
             case 2:
-              System.out.println("Berline");
+                System.out.println("Berline");
+                if (option == 0) {
+                    newVehicule();
+                }else {
+                    //Boucle pour afficher la liste des voitures du type Berlin
+                    for(int i=0;i<b.size();i++){
+                     System.out.println(i+" - "+"Immatriculation "+b.get(i).getImmatriculation()
+                                            +" - nbPassager "+b.get(i).getPassenger()
+                                            +" - Prix "+b.get(i).getprix());
+                    }    
+                }
               break;
             case 3:
-              System.out.println("Sport.Utilitie.Vehicule");
-              louer_un_vehicule();
+                System.out.println("Suv");
+                if (option == 0) {
+                    newVehicule();
+                }else {
+                    //Boucle pour afficher la liste des voitures du type Suv
+                    for(int i=0;i<s.size();i++){
+                     System.out.println(i+" - "+"Immatriculation "+s.get(i).getImmatriculation()
+                                            +" - nbPassager "+s.get(i).getPassenger()
+                                            +" - Prix "+s.get(i).getprix());
+                    }
+                }
               break;
-            case 0:
-                System.out.println("Quitter");
-                Location.Menu_principal();
-              break;
+            
             default:
-              System.out.println("Default");
+                System.out.println("Default");
               break; // This break is not really necessary
         }
     }
@@ -158,82 +209,102 @@ public class Location {
      */
     public static void inscription() {
         
-            Client client = new Client();
-            
-            String nom = Keyin.inString("Nom :");
-            client.setNom(nom);
+        Client client = new Client();
 
-            String prénom = Keyin.inString("Prenom :");
-            client.setPrenom(prénom);
+        String nom = Keyin.inString("Nom :");
+        client.setNom(nom);
 
-            int age = Keyin.inInt("Age :");
-            client.setAge(age);
+        String prénom = Keyin.inString("Prenom :");
+        client.setPrenom(prénom);
 
-            int NumPermis = Keyin.inInt("N° Permis :");
-            client.setAge(NumPermis);
+        int age = Keyin.inInt("Age :");
+        client.setAge(age);
 
-            cl.add(client);
-            
-            for(int i = 0;i<cl.size();i++){
-            System.out.println("Nom "+cl.get(i).getNom()
-                                +" - Prenom "+i+" - "+cl.get(i).getPrenom()
-                                +" - Age "+cl.get(i).getAge()
-                                +" - Numéro de permis "+cl.get(i).getNumPermis());
+        int NumPermis = Keyin.inInt("N° Permis :");
+        client.setAge(NumPermis);
+
+        cl.add(client);
+        
+        //Ont Affiche le client
+        for(int i = 0;i<cl.size();i++){
+            System.out.println("=================================");
+            System.out.println("Numéro de client :"+i);
+            System.out.println("Nom :"+cl.get(i).getNom());
+            System.out.println("Prénom :"+cl.get(i).getPrenom());
+            System.out.println("Age :"+cl.get(i).getAge());
+            System.out.println("Numéro de permis :"+cl.get(i).getNumPermis());
+           
         }
+        System.out.println("*********************************");
+        System.out.println("Merci !");
+        
+        //Ont retourn dans le menu principale
         Location.Menu_principal();
     }
     
     
-    public static void renderCars() {
-        Voiture Voiture = new Voiture();
-        String nom = Keyin.inString("n° de location :");
-        //Voiture.setNom(nom);
-        System.out.println("Merci le montant à régler est de " );
-    }
     
     public static void louer_un_vehicule(){
+        
         FicheLocation fichelocation = new FicheLocation();
-        //Affichage liste Client
+        
+        //Ont Affiche la liste des clients
         for(int i=0;i<cl.size();i++){
-            System.out.println("ID "+i+" - "+"Prenom "+cl.get(i).getPrenom());
+            System.out.println(+i+" - "+"Prenom "+cl.get(i).getPrenom());
         }
-        //Scanne selection liste client + Affecté scanne dans une autre variable
-        int select_client = Keyin.inInt("Sélectionner le client");
+        
+        //Ont choisie le client 
+        int select_client = Keyin.inInt("Sélectionner le client :");
         
         Client client = cl.get(select_client);
         fichelocation.setListClient(client);
         
-        //Boucle affichage liste voiture + id
-        for(int i=0;i<v.size();i++){
-            System.out.println("ID "+i+" - "+"Immatriculation "+v.get(i).getImmatriculation()
-                                            +" - nbPassager "+v.get(i).getPassenger()
-                                            +" - Prix "+v.get(i).getprix());
-        }
+        //ont appelle la fonction pour sélèctioné le type de voiture
+        choixVoiture(1);
         
-        int select_voiture = Keyin.inInt("Sélectionner une voiture");
+        
+        
+        int select_voiture = Keyin.inInt("Sélectionner une voiture :");
         
         Voiture voiture = v.get(select_voiture);
         fichelocation.setListVoiture(voiture);
         
-        int select_duree = Keyin.inInt("Indiqué une durée /JOUR");
+        int select_duree = Keyin.inInt("Indiqué la duré de location par jour :");
         fichelocation.setDuree(select_duree);
         
         fl.add(fichelocation);
         
         for(int i=0;i<fl.size();i++){
-            System.out.println("Client "+fl.get(i).getListClient().getPrenom()
-                                +" - Voiture "+fl.get(i).getListVoiture().getImmatriculation()
+           System.out.println("N° Location "+i+" - Client "+fl.get(i).getListVoiture().getImmatriculation()
                                 +" - Duree "+fl.get(i).getDuree());
-        }
+        }       
         
-        System.out.println("=================================");
-        System.out.println("|   RESUMER DE LA LOCATION       |");
-        System.out.println("=================================");        
+         location.Location.prix = fl.get(select_duree).getDuree()*v.get(select_voiture).getprix();
         
-        int test = fl.get(select_duree).getDuree()*v.get(select_voiture).getprix();
-        System.out.println("Prix TOTAL a payer "+test+" XPF");
+    }
+    
+    public static void Total_prix(){
+        
+        int total_location = location.Location.prix;
+        System.out.println(total_location);
+        
     }
    
+   public static void TotaPrix() {
+       for(int i=0;i<fl.size();i++){
+            System.out.println("N° Location "+i+" - Client "+fl.get(i).getListVoiture().getImmatriculation()
+                                +" - Duree "+fl.get(i).getDuree());
+        }
+       
+        int select_numLocation = Keyin.inInt("Entrée le numéros de Location :");
+        FicheLocation fichelocation = fl.get(select_numLocation);
+        int montant_total = fichelocation.getListVoiture().getprix()*fichelocation.getDuree();
+        
+        
+        System.out.println("Merci le montant à régler est de " +montant_total+ "XPF");
+        Location.Menu_principal();
    
+   }
+    
 
 }

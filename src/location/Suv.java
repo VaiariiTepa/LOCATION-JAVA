@@ -2,7 +2,7 @@ package location;
 
 public class Suv extends Voiture{
     
-    public Suv(int immatriculation,int passenger,int prix){
+    public Suv(int immatriculation,int passenger,int prix, int type){
             
             this.immatriculation = immatriculation;
             this.passenger = passenger;
