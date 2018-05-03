@@ -24,11 +24,12 @@ public class Voiture {
     * @param nbLocation
     * @param type 
     */
-   public Voiture(int immatriculation,int passenger,int prix) {
+   public Voiture(int immatriculation,int passenger,int prix, int type) {
        
        this.immatriculation = immatriculation;
        this.passenger = passenger;
        this.prix = prix;
+       this.type = type;
    }
    
    /**
@@ -134,5 +135,13 @@ public class Voiture {
        this.nbLocation = valeur;
    }
    
+  // protected String getType() {
+   //    return this.type;
+   //}
+   
+   //protected void setType(String newType) {
+   //    this.type = newType;
+  // }
+
  
 }
