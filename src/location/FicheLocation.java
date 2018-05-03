@@ -46,14 +46,7 @@ public class FicheLocation {
         this.duree = duree;
     }
     
-    /**
-     * Calcul de la location
-     * @return 
-     */
-    public int Total_location(){
-        
-        return this.duree*this.voiture.getTarife();
-    }
+    
     
     public void setListClient(Client client){
         this.client = client;
@@ -70,5 +63,4 @@ public class FicheLocation {
     public Voiture getListVoiture(){
         return this.voiture;
     }
-    
 }

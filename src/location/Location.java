@@ -1,16 +1,17 @@
 package location;
 
-import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Location {
     
-    private static ArrayList<Client> clients = new ArrayList();
-    private static ArrayList<Voiture> voiture = new ArrayList();
-    private static final ArrayList<FicheLocation> report = new ArrayList<FicheLocation>();
-    private static Scanner in = new Scanner(System.in);
-    
+    // v to vehicule
+    private static final ArrayList<Voiture> v = new ArrayList<Voiture>();
+    // cl to client
+    private static final ArrayList<Client> cl = new ArrayList<Client>();
+    // fl to fiche location
+    private static final ArrayList<FicheLocation> fl = new ArrayList<FicheLocation>();
     
     /**
      * 
@@ -19,10 +20,11 @@ public class Location {
     public static void main(String[] args) {
         init();
         Menu_principal();
-        
     }
     
     public static void Menu_principal(){
+        FicheLocation fichelocation = new FicheLocation();
+        
         // Local variable
         int swValue;
 
@@ -36,29 +38,26 @@ public class Location {
         System.out.println("| 3. Louer véhicule             |");
         System.out.println("| 4. Rendre véhicule            |");
         System.out.println("| 0. Quitter                    |");
+        System.out.println("|                               |");
         System.out.println("=================================");
-        swValue = Keyin.inInt("Choix : ");
+        swValue = Keyin.inInt(" Votre choix : ");
 
         // Switch construct
         switch (swValue) {
             case 1:
-                
-              choixVoiture();
-                            
+              System.out.println("Acquérir voiture");
+              newVehicule();
               break;
             case 2:
-              System.out.println("=================================");
-              System.out.println("ENREGISTREMENT DU CLIENT ");
+              System.out.println("Enregistrer nouveau client");
               inscription();
-              
-              System.out.println("=================================");
               break;
             case 3:
               louer_un_vehicule();
+
               break;
             case 4:
                 System.out.println("Rendre véhicule");
-                //renderCars() ;
               break;
             case 0:
                 System.out.println("Quitter");
@@ -70,143 +69,170 @@ public class Location {
         
     }
     
+    /**
+     * Donnée initial
+     */
     public static void init(){
-       //Liste des Vehicules
-       voiture.add(new Voiture(78459621,4,3000));
-       voiture.add(new Voiture(123456,2,1800));
-       voiture.add(new Voiture(645213,4,3500));
-       //Liste des Clients
-       clients.add(new Client("Tulipe","Maezzena",21,999));
-       clients.add(new Client("Paté","Taylor",30,777));
-       //Liste de Location
-       report.add(new FicheLocation(new Client("Tulipe","Maezzena",21,999),new Berlin(12345,5,2500,2),2));
-       report.add(new FicheLocation(new Client("Paté","Taylor",30,777),new Berlin(12345,5,2500,2),2));
+       //Liste Vehicule
+       v.add(new Voiture(78459621,4,3000));
+       v.add(new Voiture(123456,2,1800));
+       v.add(new Voiture(645213,4,3500));
+       //Liste Client
+       cl.add(new Client("Tulipe","Maezzena",21,999));
+       cl.add(new Client("Paté","Taylor",30,777));
+       //Liste Location
+       fl.add(new FicheLocation(new Client("Tulipe","Maezzena",21,999),new Berlin(12345,5,2500,2),4));
+       fl.add(new FicheLocation(new Client("Paté","Taylor",30,777),new Berlin(12345,5,2500,2),9));
     }
     
-    
-    //Menu 1 (Chois du type de voiture)
-    public static void choixVoiture() {
+    /**
+     * Acquisition d'un nouveau véhicule
+     */
+    public static void newVehicule(){
+        Voiture voiture = new Voiture();
         
-        int swValue;
-        System.out.println("=================================");
-        System.out.println("|        CATEGORIE VOITURE      |");
-        System.out.println("=================================");
-        System.out.println("| 0. Citadine                   |");
-        System.out.println("| 1. Berlin                     |");
-        System.out.println("| 2. Suv                        |");
-        System.out.println("=================================");
-        swValue = Keyin.inInt("Choix : ");
+        int immatriculation = Keyin.inInt("Immatriculation du véhicule");
+        voiture.setImmatriculation(immatriculation);
         
-        switch(swValue) {
-            case 0:
-              System.out.println("Citadine");
-              
-              // Appelle à la fonction
-              acquisition();
-              break;
-            case 1:
-              System.out.println("Berlin");
-              // Appelle à la fonction
-              acquisition();
-              break;
-            case 2:
-              System.out.println("Suv");
-              // Appelle à la fonction
-              acquisition();
-              break;
-            default:
-              System.out.println("Default");
-              break;
+        int passenger = Keyin.inInt("Nombre de passager");
+        voiture.setPassenger(passenger);
+        
+        int prix = Keyin.inInt("Tarif par jour");
+        voiture.setprix(prix);
+        
+        v.add(voiture);
+        
+        for(int i = 0;i<v.size();i++){
+            System.out.println("immatriculation "+v.get(i).getImmatriculation()
+                                +" - "+v.get(i).getPassenger()
+                                +" personnes - "+v.get(i).getprix()
+                                +" XPF/Jour");
         }
-        
-        System.out.println("Merci !");
-        Menu_principal();
-    }
-    
-    //Menu 1.1 pour la fonction choixVoiture()
-    public static void acquisition() {
-        Voiture cars = new Voiture();
-            
-        int numImmatricul = Keyin.inInt("Immatriculation du véhicule :");
-        cars.setNumImmatricul(numImmatricul);
-
-        int nbrPassagers = Keyin.inInt("Nombre de passager :");
-        cars.setNbrPassage(nbrPassagers);
-
-        int price = Keyin.inInt("Tarif par jour :");
-        cars.setTarife(price);
-        
-        voiture.add(cars);
-        
-        
-    }
-    
-
-    //Fonction pour incsrire le client
-    public static void inscription() {
-        
-        Client client = new Client();
-
-        String nom = Keyin.inString("Nom :");
-        client.setNom(nom);
-
-        String prénom = Keyin.inString("Prenom :");
-        client.setPrénom(prénom);
-
-        int age = Keyin.inInt("Age :");
-        client.setAge(age);
-
-        int NumPermis = Keyin.inInt("N° Permis :");
-        client.setAge(NumPermis);
-
-        clients.add(client);
-
-        System.out.println("Numéro de client :"+ Client.COUNT);
-        System.out.println("Merci !");
-        
-        //Ont retourne au menu principale
         Location.Menu_principal();
     }
     
-       
-    public static void louer_un_vehicule(){
-        FicheLocation fichelocation = new FicheLocation();
-        
-        //Affiche la liste des clients
-        System.out.println("Choix du Client");
-        for(int i=0;i<clients.size();i++){
-            System.out.println(i+" - "+clients.get(i).getPrénom());
-        }
-        
-        //Ont choisie le client et ont affècte dans une variable
-        int select_client = Keyin.inInt("Sélectionner le client");
-        Client client = clients.get(select_client);
-        fichelocation.setListClient(client);
-                
-        //Boucle affichage liste client + id
-        for(int i=0;i<voiture.size();i++){
-            System.out.println("ID "+i+" - "+"Immatriculation "+voiture.get(i).getNumImmatricul()
-                                            +" - nbPassager "+voiture.get(i).getNbrPassage()
-                                            +" - Prix "+voiture.get(i).getTarife());
+    /**
+     * Choix type Véhicule
+     */
+    public static void choixVoiture() {
+        // Local variable
+        int swValue;
+
+        // Display menu graphics
+        System.out.println("=================================");
+        System.out.println("|   Choix type Véhicule         |");
+        System.out.println("=================================");
+        System.out.println("|                               |");
+        System.out.println("| 1. Citadine                   |");
+        System.out.println("| 2. Berline                    |");
+        System.out.println("| 3. Sport.Utilitie.Vehicule    |");
+        System.out.println("| 0. Retour au menu principal   |");
+        System.out.println("|                               |");
+        System.out.println("=================================");
+        swValue = Keyin.inInt(" Votre choix : ");
+
+        // Switch construct
+        switch (swValue) {
+            case 1:
+              System.out.println("Citadine");
+              break;
+            case 2:
+              System.out.println("Berline");
+              break;
+            case 3:
+              System.out.println("Sport.Utilitie.Vehicule");
+              louer_un_vehicule();
+              break;
+            case 0:
+                System.out.println("Quitter");
+                Location.Menu_principal();
+              break;
+            default:
+              System.out.println("Default");
+              break; // This break is not really necessary
         }
     }
     
-    /*
-    public static void totalPrix() {
+    /**
+     * Inscription nouveaux client :D
+     */
+    public static void inscription() {
         
-        int.total = sefse.get(select_duré).getDure()*voiture.get(select_voiture).getprix();
-    }
-    */
-    /*
-    public static void renderCars() {
-        Voiture voiture = new Voiture();
-        int numLocation = Keyin.inInt("N° de location :");
-            voiture.get(id);
+            Client client = new Client();
             
-        
-        
+            String nom = Keyin.inString("Nom :");
+            client.setNom(nom);
+
+            String prénom = Keyin.inString("Prenom :");
+            client.setPrenom(prénom);
+
+            int age = Keyin.inInt("Age :");
+            client.setAge(age);
+
+            int NumPermis = Keyin.inInt("N° Permis :");
+            client.setAge(NumPermis);
+
+            cl.add(client);
+            
+            for(int i = 0;i<cl.size();i++){
+            System.out.println("Nom "+cl.get(i).getNom()
+                                +" - Prenom "+i+" - "+cl.get(i).getPrenom()
+                                +" - Age "+cl.get(i).getAge()
+                                +" - Numéro de permis "+cl.get(i).getNumPermis());
+        }
+        Location.Menu_principal();
+    }
+    
+    
+    public static void renderCars() {
+        Voiture Voiture = new Voiture();
+        String nom = Keyin.inString("n° de location :");
+        //Voiture.setNom(nom);
         System.out.println("Merci le montant à régler est de " );
-    }*/
+    }
+    
+    public static void louer_un_vehicule(){
+        FicheLocation fichelocation = new FicheLocation();
+        //Affichage liste Client
+        for(int i=0;i<cl.size();i++){
+            System.out.println("ID "+i+" - "+"Prenom "+cl.get(i).getPrenom());
+        }
+        //Scanne selection liste client + Affecté scanne dans une autre variable
+        int select_client = Keyin.inInt("Sélectionner le client");
+        
+        Client client = cl.get(select_client);
+        fichelocation.setListClient(client);
+        
+        //Boucle affichage liste voiture + id
+        for(int i=0;i<v.size();i++){
+            System.out.println("ID "+i+" - "+"Immatriculation "+v.get(i).getImmatriculation()
+                                            +" - nbPassager "+v.get(i).getPassenger()
+                                            +" - Prix "+v.get(i).getprix());
+        }
+        
+        int select_voiture = Keyin.inInt("Sélectionner une voiture");
+        
+        Voiture voiture = v.get(select_voiture);
+        fichelocation.setListVoiture(voiture);
+        
+        int select_duree = Keyin.inInt("Indiqué une durée /JOUR");
+        fichelocation.setDuree(select_duree);
+        
+        fl.add(fichelocation);
+        
+        for(int i=0;i<fl.size();i++){
+            System.out.println("Client "+fl.get(i).getListClient().getPrenom()
+                                +" - Voiture "+fl.get(i).getListVoiture().getImmatriculation()
+                                +" - Duree "+fl.get(i).getDuree());
+        }
+        
+        System.out.println("=================================");
+        System.out.println("|   RESUMER DE LA LOCATION       |");
+        System.out.println("=================================");        
+        
+        int test = fl.get(select_duree).getDuree()*v.get(select_voiture).getprix();
+        System.out.println("Prix TOTAL a payer "+test+" XPF");
+    }
    
    
 

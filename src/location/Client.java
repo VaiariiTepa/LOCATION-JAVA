@@ -1,67 +1,55 @@
 package location;
 
 public class Client {
+    private Voiture voiture;
     private String nom;
     private String prénom;
     private int age;
     private int numPermis;
-    private int id;
     
-    public static int COUNT =0;
     //Constructeur
-    public Client() {
-        COUNT ++;
-        this.id = COUNT;
-    }
-    
     public Client(String nom, String prénom, int age, int numPermis) {
-        this();
         this.nom = nom;
         this.prénom = prénom;
         this.age = age;
         this.numPermis = numPermis;
     }
-
+    
+    public Client(){
+        
+    }
     
     //Accesseur
-
-    public String getNom() {
-        return nom;
+    public String getPrenom() {
+        return this.prénom;
     }
-    
-    public int getId() {
-        return id;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getPrénom() {
-        return prénom;
-    }
-
-    public void setPrénom(String prénom) {
+        
+    public void setPrenom(String prénom) {
         this.prénom = prénom;
     }
-
-    public int getAge() {
-        return age;
+    
+    public String getNom(){
+        return this.nom;
     }
-
-    public void setAge(int age) {
+    
+    public void setNom(String nom){
+        this.nom = nom;
+    }
+    
+    public int getAge(){
+        return this.age;
+    }
+    
+    public void setAge(int age){
         this.age = age;
     }
-
-    public int getNumPermis() {
-        return numPermis;
+    
+    public int getNumPermis(){
+        return this.numPermis;
     }
-
-    public void setNumPermis(int numPermis) {
+    
+    public void setNumPermis(int numPermis){
         this.numPermis = numPermis;
     }
-    
-      
-    
     
 }
